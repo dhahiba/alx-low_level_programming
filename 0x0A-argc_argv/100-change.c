@@ -11,39 +11,27 @@
  */
 int main(int argc, char *argv[])
 {
-	int c, x = 0;
+	if (argc == 2)
+	{
+		int i, l = 0, m = atoi(argv[1]);
+		int c[] = {25, 10, 5, 2, 1};
 
-	if (argc != 2)
-	{
-		printf("error\n");
-		return (1);
+		for (i = 0; i < 5; i++)
+		{
+			if (m >= c[i])
+			{
+			l += m / c[i];
+			m = m % c[i];
+			if (m == 0)
+				break;
+			}
+		}
+		printf("%d\n", l);
 	}
-	c = atoi(argv[1]);
-	while (c > 0)
+	else
 	{
-		x++;
-		if ((c - 25) >= 0)
-		{
-			c -= 25;
-			continue;
-		}
-		if ((c - 10) >= 0)
-		{
-			c -= 10;
-			continue;
-		}
-		if ((c - 5) >= 0)
-		{
-			c -= 5;
-			continue;
-		}
-		if ((c - 2) >= 0)
-		{
-			c -= 2;
-			continue;
-		}
-		c--;
+	printf("Error\n");
+	return (1);
 	}
-	printf("%d\n", x);
 	return (0);
 }
