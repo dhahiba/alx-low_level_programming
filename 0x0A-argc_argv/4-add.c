@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 	{
 	if (y[x] < 48 || y[x] > 57)
 	{
-	printf("error\n");
+	printf("Error\n");
 	return (1);
 	}
 	}
