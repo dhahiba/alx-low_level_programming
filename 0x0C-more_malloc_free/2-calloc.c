@@ -6,23 +6,23 @@
  * @s: ...
  * @b: ...
  * @n: ...
- * Return: ...
+ * Return: s
  */
 char *_memset(char *s, char b, unsigned int n)
 {
-	char *p = s;
+	char *ptr = s;
 
 	while (n--)
 	{
 		*s++ = b;
 	}
-	return (p);
+	return (ptr);
 }
 /**
  * *_calloc - ...
  * @nmemb: ...
  * @size: ...
- * Return: ...
+ * Return: pointer
  */
 void *_calloc(unsigned int nmemb, unsigned int size)
 {
