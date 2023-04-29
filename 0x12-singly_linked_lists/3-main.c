@@ -41,6 +41,6 @@ add_node_end(&head, "Swati");
 add_node_end(&head, "Timothy");
 add_node_end(&head, "Victor");
 add_node_end(&head, "Walton");
-rint_list(head);
+print_list(head);
 return (0);
 }
