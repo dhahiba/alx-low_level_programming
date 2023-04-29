@@ -1,4 +1,6 @@
 #include "3-clac.h"
+#include <stdlib.h>
+#include <stdio.h>
 /**
  * op_add - ...
  * @a: ...

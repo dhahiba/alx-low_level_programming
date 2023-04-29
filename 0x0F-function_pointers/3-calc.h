@@ -1,7 +1,5 @@
-#ifndef CLAC_H
-#define CLAC_H
-#include <stdio.h>
-#include <stdlib.h>
+#ifndef _HEADRE_
+#define _HEADRE_
 /**
  * struct op - struct op
  * @op: the operator
