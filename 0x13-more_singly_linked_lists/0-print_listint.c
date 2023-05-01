@@ -11,7 +11,7 @@ size_t s = 0;
 
 	while (h)
 	{
-	printf("%u\n", h->n);
+	printf("%d\n", h->n);
 	h = h->next;
 	s++;
 	}
