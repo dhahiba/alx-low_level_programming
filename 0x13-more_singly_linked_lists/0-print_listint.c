@@ -11,10 +11,7 @@ size_t s = 0;
 
 	while (h)
 	{
-	if (!h->n)
-		printf("[0] (nil)\n");
-	else
-		printf("%u\n", h->n);
+	printf("%u\n", h->n);
 	h = h->next;
 	s++;
 	}
