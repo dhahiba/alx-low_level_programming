@@ -1,5 +1,6 @@
 #include "main.h"
 #include <stdlib.h>
+#include <stdio.h>
 char *create_buffer(char *file);
 void close_file(int f);
 /**
@@ -12,6 +13,7 @@ char *create_buffer(char *file)
 char *b;
 b = malloc(sizeof(char) * 1024);
 if (b == NULL)
+{
 dprintf(STDERR_FILENO, "Error: Can'twrite to %s\n", file);
 exit(99);
 }
@@ -31,6 +33,7 @@ if (c == -1)
 {
 dprintf(STDERR_FILENO, "Error: Can't close f %d\n", f);
 exit(100);
+}
 }
 /**
  * main - ...
