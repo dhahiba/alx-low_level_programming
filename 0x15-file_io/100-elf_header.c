@@ -1,13 +1,15 @@
 #include "main.h"
 #include <elf.h>
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
+
 void print_osabi_more(Elf64_Ehdr);
+
 /**
- * print_magic - ...
+ * pprint_magic - ...
  * @h: ...
  */
-void print_magic(Elf64_Ehdr h)
+void pprint_magic(Elf64_Ehdr h)
 {
 	int i;
 
@@ -16,31 +18,31 @@ void print_magic(Elf64_Ehdr h)
 printf("%2.2x%s", h.e_ident[i], i == EI_NIDENT - 1 ? "\n" : " ");
 }
 /**
- * print_class - ....
+ * pprint_class - ....
  * @h: ...
  */
-void print_class(Elf64_Ehdr h)
+void pprint_class(Elf64_Ehdr h)
 {
 	printf("  Class:                             ");
 	switch (h.e_ident[EI_CLASS])
 	{
 		case ELFCLASS64:
 			printf("ELF64");
-		break;
+			break;
 		case ELFCLASSNONE:
-		printf("none");
-		break;
+			printf("none");
+			break;
 		case ELFCLASS32:
-		printf("ELF32");
-		break;
+			printf("ELF32");
+			break;
 	}
 	printf("\n");
 }
 /**
- * print_data - ...
+ * pprint_data - ...
  * @h: ...
  */
-void print_data(Elf64_Ehdr h)
+void pprint_data(Elf64_Ehdr h)
 {
 	printf("  Data:                              ");
 	switch (h.e_ident[EI_DATA])
@@ -53,14 +55,15 @@ void print_data(Elf64_Ehdr h)
 		break;
 		case ELFDATANONE:
 		printf("none");
+		break;
 	}
 	printf("\n");
 }
 /**
- * print_version - ....
+ * pprint_version - ....
  * @h: ...
  */
-void print_version(Elf64_Ehdr h)
+void pprint_version(Elf64_Ehdr h)
 {
 	printf("   Version:                           %d", h.e_ident[EI_VERSION]);
 	switch (h.e_ident[EI_VERSION])
@@ -70,7 +73,6 @@ void print_version(Elf64_Ehdr h)
 		break;
 		case EV_NONE:
 		printf("%s", "");
-		break;
 		break;
 	}
 	printf("\n");
@@ -245,10 +247,10 @@ int main(int ac, char **av)
 	}
 	else
 		dprintf(STDERR_FILENO, "Not ELF file: %s\n", av[1]), exit(98);
-	print_magic(h);
-	print_class(h);
-	print_data(h);
-	print_version(h);
+	pprint_magic(h);
+	pprint_class(h);
+	pprint_data(h);
+	pprint_version(h);
 	print_osabi(h);
 	print_abiversion(h);
 	print_type(h);
