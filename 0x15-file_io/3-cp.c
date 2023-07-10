@@ -1,80 +1,41 @@
 #include "main.h"
 #include <stdlib.h>
 #include <stdio.h>
-char *create_buffer(char *file);
-void close_file(int f);
-/**
- * create_buffer - ...
- * @file: ...
- * Return: ...
- */
-char *create_buffer(char *file)
-{
-char *b;
-b = malloc(sizeof(char) * 1024);
-if (b == NULL)
-{
-dprintf(STDERR_FILENO, "Error: Can't write to %s\n", file);
-exit(99);
-}
-return (b);
-}
-/**
- * close_file - ...
- * @f: ...
- * Return: ...
- */
-void close_file(int f)
-{
-int c;
-
-c = close(f);
-if (c == -1)
-{
-dprintf(STDERR_FILENO, "Error: Can't close f %d\n", f);
-exit(100);
-}
-}
+#define USAGE "Usage: cp file_from file_to\n"
+#define ERR_NOREAD "Error: Can't read from file %s\n"
+#define ERR_NOWRITE "Error: Can't write to %s\n"
+#define ERR_NOCLOSE "Error: Can't close fd %d\n"
+#define PERMISSIONS (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH)
 /**
  * main - ...
- * @argc: ...
- * @argv: ...
- * Return: ....
- * Description: ...
+ * @ac: ..
+ * @av: ...
+ * Return: ...
  */
-int main(int argc, char *argv[])
+int main(int ac, char **av)
 {
-int f, t, r, w;
-char *b;
+	int from_fd = 0, to_fd = 0;
+	ssize_t b;
+	char buf[READ_BUF_SIZE];
 
-if (argc != 3)
-{
-dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
-exit(97);
-}
-b = create_buffer(argv[2]);
-f = open(argv[1], O_RDONLY);
-r = read(f, b, 1024);
-t = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
-do {
-if (f == -1 || r == -1)
-{
-dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
-free(b);
-exit(98);
-}
-w = write(t, b, r);
-if (t == -1 || w == -1)
-{
-dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
-free(b);
-exit(99);
-}
-r = read(f, b, 1024);
-t = open(argv[2], O_WRONLY | O_APPEND);
-} while (r > 0);
-free(b);
-close_file(f);
-close_file(t);
-return (0);
+	if (ac != 3)
+		dprintf(STDERR_FILENO, USAGE), exit(97);
+	from_fd = open(av[1], O_RDONLY);
+	if (from_fd == -1)
+		dprintf(STDERR_FILENO, ERR_NOREAD, av[1]), exit(98);
+	to_fd = open(av[2], O_WRONLY | O_CREAT | O_TRUNC, PERMISSIONS);
+	if (to_fd == -1)
+		dprintf(STDERR_FILENO, ERR_NOWRITE, av[2]), exit(99);
+	while ((b = read(from_fd, buf, READ_BUF_SIZE)) > 0)
+		if (write(to_fd, buf, b) != b)
+			dprintf(STDERR_FILENO, ERR_NOWRITE, av[2]), exit(99);
+	if (b == -1)
+		dprintf(STDERR_FILENO, ERR_NOREAD, av[1]), exit(98);
+	from_fd = close(from_fd);
+	to_fd = close(to_fd);
+	if (from_fd)
+		dprintf(STDERR_FILENO, ERR_NOCLOSE, from_fd), exit(100);
+	if (to_fd)
+		dprintf(STDERR_FILENO, ERR_NOCLOSE, from_fd), exit(100);
+	return (EXIT_SUCCESS);
 }
